@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>US India Tariff -Trade Relations: An Interactive Analysis with Gemini AI</title>
+    <title>U.S.-India Trade Relations: An Interactive Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: "Warm Neutral" - A calm palette with slate and indigo for a professional, analytical tone, accented with teal. -->
-    <!-- Application Structure Plan: The application uses a thematic, single-page scroll structure. It starts with a high-level dashboard (the core conflict, key stats), then allows users to deep-dive into focused modules: 'The Tariff Toolkit' (interactive cards for legal powers), 'Sector Battlegrounds' (tabbed interface for friction points), and 'Economic Scenarios' (an interactive chart simulating tariff impacts). This user-centric design enhances usability by letting users explore non-linearly, making complex data tangible and promoting understanding over simple reading. Gemini API features are added to 'Battlegrounds' and 'Outlook' to provide dynamic, AI-generated analysis. -->
+    <!-- Application Structure Plan: The application uses a thematic, single-page scroll structure. It starts with a high-level dashboard (the core conflict, key stats), then allows users to deep-dive into focused modules: 'The Tariff Toolkit' (interactive cards for legal powers), 'Sector Battlegrounds' (tabbed interface for friction points), and 'Economic Scenarios' (an interactive chart simulating tariff impacts). This user-centric design enhances usability by letting users explore non-linearly, making complex data tangible and promoting understanding over simple reading. -->
     <!-- Visualization & Content Choices:
         - Report Info: Bilateral trade data -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Static, hover for details -> Justification: Clearly shows the imbalance between exports and imports.
         - Report Info: Top exports/imports -> Goal: Inform -> Viz: Donut Charts (Chart.js) -> Interaction: Static, hover for details -> Justification: Simple, effective display of component proportions.
-        - Report Info: Sectoral disputes -> Goal: Compare/Organize -> Viz: Tabbed Content Panels (HTML/CSS/JS) -> Interaction: Click tabs, then click a Gemini API button to generate a negotiation briefing. -> Justification: Organizes complex information cleanly, with an AI-powered layer for deeper strategic insight.
+        - Report Info: Sectoral disputes -> Goal: Compare/Organize -> Viz: Tabbed Content Panels (HTML/CSS/JS) -> Interaction: Click tabs to switch views -> Justification: Organizes complex information cleanly, preventing user overload.
         - Report Info: Potential GDP impact based on relative tariffs -> Goal: Relationships/Explore -> Viz: Interactive Bar Chart (Chart.js) with slider -> Interaction: User adjusts a hypothetical tariff on India, chart updates -> Justification: Makes the abstract concept of 'relative competitiveness' concrete and interactive.
         - Report Info: Presidential legal powers -> Goal: Organize -> Viz: Clickable Cards (HTML/CSS/JS) -> Interaction: Click to expand/collapse -> Justification: More engaging and less dense than a static list.
-        - Report Info: Forward Outlook -> Goal: Synthesize/Explore -> Viz: Static cards + Gemini API button -> Interaction: Click button to generate a 'wild card' geopolitical scenario. -> Justification: Provides a dynamic, forward-looking element beyond the static report content.
+        - Report Info: 2025 Negotiation Timeline -> Goal: Change -> Viz: Vertical Timeline (HTML/CSS) -> Interaction: Static -> Justification: Clearly visualizes the sequence of events in the current standoff.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -61,26 +61,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
         }
-        .gemini-button {
-            background-color: #14b8a6;
-            color: white;
-            transition: background-color 0.3s;
-        }
-        .gemini-button:hover {
-            background-color: #0f766e;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #14b8a6;
-            animation: spin 1s ease infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="text-slate-700">
@@ -88,7 +68,7 @@
     <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <h1 class="text-xl md:text-2xl font-bold text-indigo-900">US India Tariff News</h1>
+                <h1 class="text-xl md:text-2xl font-bold text-indigo-900">U.S.-India Trade</h1>
                 <div class="hidden md:flex space-x-6">
                     <a href="#overview" class="nav-link font-semibold pb-1 border-b-2">Overview</a>
                     <a href="#toolkit" class="nav-link font-semibold pb-1 border-b-2">Tariff Toolkit</a>
@@ -230,42 +210,38 @@
                     <button data-target="ipr" class="sector-tab py-2 px-4 font-semibold border-b-2 border-transparent text-slate-500">©️ Intellectual Property</button>
                     <button data-target="digital" class="sector-tab py-2 px-4 font-semibold border-b-2 border-transparent text-slate-500">🌐 Digital Trade</button>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md min-h-[350px]">
-                    <div id="agri" class="sector-content" data-sector-name="Agriculture & Dairy">
+                <div class="bg-white p-6 rounded-lg shadow-md min-h-[300px]">
+                    <div id="agri" class="sector-content">
                         <h3 class="font-bold text-xl text-indigo-900 mb-3">Agriculture & Dairy: The "Non-Negotiable" Red Line</h3>
                         <p class="mb-4">This is the most intractable dispute. The U.S. seeks market access for its large-scale, subsidized agribusiness, while India protects millions of small farmers who form the backbone of its rural economy and voting bloc.</p>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm mb-6">
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
                             <div><strong class="text-red-700">U.S. Demands:</strong> Reductions in India's high tariffs (avg. 39%), removal of non-tariff barriers, and market access for GM crops and dairy products.</div>
                             <div><strong class="text-teal-700">India's Position:</strong> A firm "red line" to protect farmer livelihoods and food security. Opening the dairy sector alone could cause a $12.4 billion annual income loss for 80 million farmers. Some rules are also based on non-negotiable cultural grounds.</div>
                         </div>
-                        <button class="gemini-button font-bold py-2 px-4 rounded-lg generate-briefing-btn">✨ Generate Negotiation Briefing</button>
                     </div>
-                    <div id="pharma" class="sector-content hidden" data-sector-name="Pharmaceuticals">
+                    <div id="pharma" class="sector-content hidden">
                         <h3 class="font-bold text-xl text-indigo-900 mb-3">Pharmaceuticals: A High-Stakes Symbiosis</h3>
                         <p class="mb-4">India is the "pharmacy of the world," supplying ~35% of U.S. prescriptions with affordable generics. The U.S. market is vital for Indian pharma companies, generating 35-50% of their revenue.</p>
-                         <div class="grid md:grid-cols-2 gap-4 text-sm mb-6">
+                         <div class="grid md:grid-cols-2 gap-4 text-sm">
                             <div><strong class="text-red-700">U.S. Leverage:</strong> Threats of extreme tariffs (up to 200%) are likely rhetorical "shock-and-awe" tactics to gain leverage in other areas, as implementing them would cause a U.S. public health and affordability crisis.</div>
                             <div><strong class="text-teal-700">India's Position:</strong> This sector is both a target of U.S. threats and a potential beneficiary of a wider trade realignment that disadvantages competitors like China, creating a complex negotiating dynamic.</div>
                         </div>
-                        <button class="gemini-button font-bold py-2 px-4 rounded-lg generate-briefing-btn">✨ Generate Negotiation Briefing</button>
                     </div>
-                    <div id="ipr" class="sector-content hidden" data-sector-name="Intellectual Property Rights">
+                    <div id="ipr" class="sector-content hidden">
                         <h3 class="font-bold text-xl text-indigo-900 mb-3">Intellectual Property Rights: The Chronic Divide</h3>
                         <p class="mb-4">A decades-old conflict stemming from different philosophies. The U.S. prioritizes maximum protection for its innovation industries, while India balances IP rights with public interest goals like access to affordable medicine.</p>
-                         <div class="grid md:grid-cols-2 gap-4 text-sm mb-6">
+                         <div class="grid md:grid-cols-2 gap-4 text-sm">
                             <div><strong class="text-red-700">U.S. Grievances:</strong> Consistently places India on a "Priority Watch List." Key complaints include India's patent law (Sec 3d) preventing "evergreening," weak data protection, and high piracy rates.</div>
                             <div><strong class="text-teal-700">India's Position:</strong> Maintains its laws are fully compliant with WTO (TRIPS) agreements and has taken steps to modernize its IP offices, but the fundamental gap in approach remains a source of chronic friction.</div>
                         </div>
-                        <button class="gemini-button font-bold py-2 px-4 rounded-lg generate-briefing-btn">✨ Generate Negotiation Briefing</button>
                     </div>
-                    <div id="digital" class="sector-content hidden" data-sector-name="Digital Trade">
+                    <div id="digital" class="sector-content hidden">
                         <h3 class="font-bold text-xl text-indigo-900 mb-3">Digital Trade: The New Battleground</h3>
                         <p class="mb-4">The newest and most rapidly escalating conflict pits U.S. tech giants' business models against India's assertions of data sovereignty.</p>
-                         <div class="grid md:grid-cols-2 gap-4 text-sm mb-6">
+                         <div class="grid md:grid-cols-2 gap-4 text-sm">
                             <div><strong class="text-red-700">U.S. Objections:</strong> U.S. tech firms like Meta and Google strongly oppose India's data localization rules, which require data to be stored locally. They argue this creates costs and undermines the free flow of data.</div>
                             <div><strong class="text-teal-700">India's Position:</strong> Frames data localization as essential for protecting citizen privacy, national security, and building a "resilient internet." Control over its citizens' data is seen as a core national interest in the digital age.</div>
                         </div>
-                        <button class="gemini-button font-bold py-2 px-4 rounded-lg generate-briefing-btn">✨ Generate Negotiation Briefing</button>
                     </div>
                 </div>
             </div>
@@ -292,7 +268,7 @@
              <p class="max-w-3xl mx-auto text-center text-slate-600 mb-10">
                 The final tariff rate is not a fixed number but a dynamic variable. Synthesizing the legal, political, and economic factors reveals a probable path forward for the complex U.S.-India trade relationship.
             </p>
-            <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="grid md:grid-cols-2 gap-8">
                 <div class="stat-card">
                     <h3 class="text-xl font-bold text-indigo-900 mb-3">Short-Term: The "Mini-Deal"</h3>
                     <p class="text-slate-600">The most probable outcome before the August 1 deadline is a limited interim agreement. This would serve as a de-escalation mechanism, setting a baseline tariff on Indian goods below 20%. This provides a political win for both leaders and defers the most intractable issues (like agriculture and IPR) to future, more comprehensive negotiations.</p>
@@ -302,14 +278,6 @@
                     <p class="text-slate-600">Achieving a full Bilateral Trade Agreement (BTA) will be a long, arduous process. The ultimate trajectory will be tied to the U.S.-China strategic competition. As long as the U.S. views India as a critical counterweight to China, a powerful incentive will exist to manage trade frictions. The relationship is destined to be a continuous balancing act between strategic imperatives and commercial contradictions.</p>
                 </div>
             </div>
-            <div class="stat-card text-center">
-                <h3 class="text-xl font-bold text-indigo-900 mb-4">AI-Powered Geopolitical Analysis</h3>
-                <button id="generate-outlook-btn" class="gemini-button font-bold py-3 px-6 rounded-lg mb-4">✨ Generate Wild Card Scenario</button>
-                <div id="outlook-result-container" class="text-left p-4 bg-slate-50 rounded-lg hidden">
-                    <div id="outlook-spinner" class="spinner mx-auto my-4 hidden"></div>
-                    <div id="outlook-content"></div>
-                </div>
-            </div>
         </section>
 
     </main>
@@ -317,20 +285,9 @@
     <footer class="bg-indigo-900 text-white/80 py-6">
         <div class="container mx-auto px-4 text-center">
             <p>This interactive analysis is based on the report "U.S.-India Trade Relations at a Crossroads."</p>
-            <p class="text-sm text-white/60">Application designed for informational and educational purposes. AI-generated content may require verification.</p>
+            <p class="text-sm text-white/60">Application designed for informational and educational purposes.</p>
         </div>
     </footer>
-
-    <!-- Modal for Gemini Briefing -->
-    <div id="briefing-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 relative">
-            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">&times;</button>
-            <h2 id="modal-title" class="text-2xl font-bold text-indigo-900 mb-4">Negotiation Briefing</h2>
-            <div id="modal-spinner" class="spinner mx-auto my-8"></div>
-            <div id="modal-content" class="text-slate-700 space-y-3 hidden"></div>
-        </div>
-    </div>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -554,97 +511,6 @@
             sections.forEach(section => {
                 observer.observe(section);
             });
-
-            // Gemini API Integration
-            const briefingModal = document.getElementById('briefing-modal');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const generateBriefingBtns = document.querySelectorAll('.generate-briefing-btn');
-            const modalTitle = document.getElementById('modal-title');
-            const modalSpinner = document.getElementById('modal-spinner');
-            const modalContent = document.getElementById('modal-content');
-            
-            const generateOutlookBtn = document.getElementById('generate-outlook-btn');
-            const outlookResultContainer = document.getElementById('outlook-result-container');
-            const outlookSpinner = document.getElementById('outlook-spinner');
-            const outlookContent = document.getElementById('outlook-content');
-
-            const callGeminiAPI = async (prompt) => {
-                const apiKey = ""; 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                
-                const payload = {
-                    contents: [{
-                        role: "user",
-                        parts: [{ text: prompt }]
-                    }]
-                };
-
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) {
-                        throw new Error(`API Error: ${response.statusText}`);
-                    }
-                    const result = await response.json();
-                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts.length > 0) {
-                        return result.candidates[0].content.parts[0].text;
-                    } else {
-                        return "Could not generate a response. The model may have returned empty content.";
-                    }
-                } catch (error) {
-                    console.error("Gemini API call failed:", error);
-                    return `An error occurred while contacting the AI model: ${error.message}. Please check the console for details.`;
-                }
-            };
-
-            generateBriefingBtns.forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const sectorContentEl = e.target.closest('.sector-content');
-                    const sectorName = sectorContentEl.dataset.sectorName;
-                    const usDemands = sectorContentEl.querySelector('.text-red-700').parentElement.innerText;
-                    const indiaPosition = sectorContentEl.querySelector('.text-teal-700').parentElement.innerText;
-
-                    modalTitle.innerText = `Negotiation Briefing: ${sectorName}`;
-                    modalContent.innerHTML = '';
-                    modalContent.classList.add('hidden');
-                    modalSpinner.classList.remove('hidden');
-                    briefingModal.classList.remove('hidden');
-
-                    const prompt = `You are a trade negotiation advisor. Based on the following information for the "${sectorName}" sector, generate a concise, 3-point negotiation briefing for the Indian side. Focus on potential compromises, counter-arguments, and strategic leverage points. Format the output as simple HTML paragraphs.
-                    
-                    ${usDemands}
-                    ${indiaPosition}`;
-                    
-                    const result = await callGeminiAPI(prompt);
-                    modalContent.innerHTML = result;
-                    modalSpinner.classList.add('hidden');
-                    modalContent.classList.remove('hidden');
-                });
-            });
-
-            closeModalBtn.addEventListener('click', () => {
-                briefingModal.classList.add('hidden');
-            });
-            
-            generateOutlookBtn.addEventListener('click', async () => {
-                outlookContent.innerHTML = '';
-                outlookSpinner.classList.remove('hidden');
-                outlookResultContainer.classList.remove('hidden');
-                generateOutlookBtn.disabled = true;
-                
-                const prompt = `You are a geopolitical analyst specializing in South Asia. Consider the following context: The U.S. and India have a strong strategic partnership, primarily to balance China. However, they also have significant trade frictions, with the U.S. viewing India as protectionist. A "mini-deal" on trade is the likely short-term outcome to de-escalate tensions. 
-                
-                Based on this, generate a brief analysis of one plausible 'wild card' event that could significantly alter this U.S.-India relationship outlook in the next 12 months. Describe the event and its potential impact. Format the output as simple HTML with a heading and paragraphs.`;
-
-                const result = await callGeminiAPI(prompt);
-                outlookContent.innerHTML = result;
-                outlookSpinner.classList.add('hidden');
-                generateOutlookBtn.disabled = false;
-            });
-
         });
     </script>
 
